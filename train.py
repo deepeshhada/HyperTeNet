@@ -155,10 +155,7 @@ if __name__ == '__main__':
                     ce_or_pairwise_loss += loss
             # training ends =======================================================================
             total_loss = ce_or_pairwise_loss + reg_loss + recon_loss
-            print(
-                "[%.2f s] %15s iter:%3i obj ==> total loss:%.4f ce/pairwise loss:%.4f reg loss:%.4f recon loss:%.4f"
-                % (time() - t2, network, epoch_num, total_loss, ce_or_pairwise_loss, reg_loss, recon_loss)
-            )
+            print("[%.2f s] %15s iter:%3i ==> Loss:%.4f " % (time() - t2, network, epoch_num, total_loss))
 
         # validation and test =======================================================================
         if epoch_num % params.epoch_mod == 0:
