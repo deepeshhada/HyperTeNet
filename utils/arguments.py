@@ -6,13 +6,11 @@ def parse_args():
     # dataset and method
     parser = argparse.ArgumentParser(description="Arguments")
     parser.add_argument('--method',                nargs='?',  default='tenet', help='gmf,transformer,gnn,tenet')
-    parser.add_argument('--path',                  nargs='?',  default='/home/vijai/tenet/data_tenet/required/zhihu_small/tenet/zhihu/', help='Input data path.')
-    parser.add_argument('--dataset',               nargs='?',  default='zhihu', help='Choose a dataset.')
-    #parser.add_argument('--path',                  nargs='?',  default='/home/vijai/tenet/all_data_tenet/sample_small/', help='Input data path.')
-    #parser.add_argument('--dataset',               nargs='?',  default='sample_small', help='Choose a dataset.')
-    parser.add_argument('--res_path',              nargs='?',  default='/home/vijai/tenet/result_tenet/', help='result path for plots and best error values.')
+    parser.add_argument('--path',                  nargs='?',  default='./data/aotm/', help='Input data path.')
+    parser.add_argument('--dataset',               nargs='?',  default='aotm', help='Choose a dataset.')
+    parser.add_argument('--res_path',              nargs='?',  default='./saved_models/', help='result path for plots and best error values.')
     parser.add_argument('--res_folder',            nargs='?',  default='test', help='specific folder corresponding to different runs on different parameters.')
-    parser.add_argument('--include_networks',      nargs='?',  default="['seq']", help='include given networks in the model.')
+    parser.add_argument('--include_networks',      nargs='?',  default="['gnn', 'seq']", help='include given networks in the model.')
     #parser.add_argument('--include_networks',      nargs='?',  default="['transformer','gnn']",help='loss based on the given interactions.')
 
     # algo-parameters

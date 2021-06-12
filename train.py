@@ -37,25 +37,15 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 if __name__ == '__main__':
     args = parse_args()
-    print(args)
     print('Loading dataset...', end="")
-    t1, t_init = time(), time()
     args.device = device
     args.date_time = datetime.datetime.now()
 
-    if args.method.lower() in ['tenet']:
-        if args.knn_graph:
-            dataset = EmbedDataset(args)
-        else:
-            dataset = TenetDataset(args)
-    else:
-        dataset = Dataset(args)
-
+    dataset = EmbedDataset(args)
     params = Parameters(args, dataset)
     print("\rDataset Statistics:")
     print(f"    Users: {params.num_user} | Lists: {params.num_list} | Items:{params.num_item}")
-    print(
-        f"    Train: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
+    print(f"    Train: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
     print(f"    Density: {100 * params.num_train_instances / (params.num_list * params.num_item):.4f} %")
 
     args.args_str = params.get_args_to_string()
@@ -64,6 +54,7 @@ if __name__ == '__main__':
     models = Models(params, device=device)
     model = models.get_model()
     model.to(device)
+    save_model_path = os.path.join("./saved_models", params.dataset + ".pth.tar")
 
     criterion_li = torch.nn.BCELoss()
     optimizer_gnn = torch.optim.Adam(model.parameters(), lr=params.lr)
@@ -79,8 +70,6 @@ if __name__ == '__main__':
     ns_seq = ListNegativeSamples(params.train_matrix_item_seq, params.num_negatives, params)
 
     best_ndcg = -1
-    save_model_path = os.path.join("./saved_models", params.dataset + ".pth.tar")
-
     include_hgnn_flag = True
     for epoch_num in range(params.num_epochs + 1):
         tt = time()
@@ -137,9 +126,7 @@ if __name__ == '__main__':
                                                                       item_seq_neg=item_seq_neg[batch_indices].long(),
                                                                       train=True, network=network)
                     first_flag = True
-                    # new ===================================================================
                     for ind_neg in range(params.num_negatives_seq - 1):
-                        # pdb.set_trace()
                         neg_indices = np.arange(0, num_inst)
                         np.random.shuffle(neg_indices)
                         neg_batch_indices = neg_indices[0:len(batch_indices)]
@@ -166,7 +153,7 @@ if __name__ == '__main__':
                     loss.backward()
                     optimizer_seq.step()
                     ce_or_pairwise_loss += loss
-            # training end =======================================================================
+            # training ends =======================================================================
             total_loss = ce_or_pairwise_loss + reg_loss + recon_loss
             print(
                 "[%.2f s] %15s iter:%3i obj ==> total loss:%.4f ce/pairwise loss:%.4f reg loss:%.4f recon loss:%.4f"
@@ -174,7 +161,7 @@ if __name__ == '__main__':
             )
 
         # validation and test =======================================================================
-        if epoch_num % params.epoch_mod == 0:  ##
+        if epoch_num % params.epoch_mod == 0:
             t3 = time()
             (valid_hits_lst, valid_ndcg_lst, valid_map_lst) = vt_err.get_update(model, epoch_num, device,
                                                                                 valid_flag=True)
@@ -194,6 +181,5 @@ if __name__ == '__main__':
                 best_ndcg = test_ndcg
                 save_model(model.state_dict(), save_model_path)
 
-    # best valid and test =======================================================================
-    tot_time = time() - t_init
-    args.total_time = '{:.2f}m'.format(tot_time / 60)
+    print("Trained!")
+    print("="*60)
