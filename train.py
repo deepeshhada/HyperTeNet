@@ -47,7 +47,7 @@ if __name__ == '__main__':
     print(f"    Users: {params.num_user} | Lists: {params.num_list} | Items:{params.num_item}")
     print(f"    Train: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
     print(f"    Density: {100 * params.num_train_instances / (params.num_list * params.num_item):.4f} %")
-
+    print("="*60)
     args.args_str = params.get_args_to_string()
     t1 = time()
 
