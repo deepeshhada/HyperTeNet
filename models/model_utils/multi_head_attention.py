@@ -4,15 +4,16 @@ import torch
 import numpy as np
 from tqdm import tqdm, trange
 import copy
-import math
+import math, pdb
 
-from models.hypersagnn_submodels.ScaledDotProductAttention import ScaledDotProductAttention
-from models.hypersagnn_submodels.FeedForward import FeedForward
-
+from models.model_utils.scaled_dot_product_attention import ScaledDotProductAttention
+from models.model_utils.feed_forward import FeedForward
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class MultiHeadAttention(nn.Module):
+    ''' Multi-Head Attention module '''
+    
     def __init__(
             self,
             n_head,
@@ -27,7 +28,8 @@ class MultiHeadAttention(nn.Module):
         self.n_head = n_head
         self.d_k = d_k
         self.d_v = d_v
-
+        
+        #pdb.set_trace()
         self.w_qs = nn.Linear(input_dim, n_head * d_k, bias=False)
         self.w_ks = nn.Linear(input_dim, n_head * d_k, bias=False)
         self.w_vs = nn.Linear(input_dim, n_head * d_v, bias=False)
@@ -62,7 +64,11 @@ class MultiHeadAttention(nn.Module):
     
     def forward(self, q, k, v, diag_mask, mask=None):
         d_k, d_v, n_head = self.d_k, self.d_v, self.n_head
+        
+        residual_dynamic = q
+        residual_static = v
 
+        #pdb.set_trace() 
         q = self.layer_norm1(q)
         k = self.layer_norm2(k)
         v = self.layer_norm3(v)
@@ -101,6 +107,7 @@ class MultiHeadAttention(nn.Module):
                 self.diag_mask -= torch.eye(len_v, len_v, device=device)
             self.diag_mask = self.diag_mask.repeat(n, 1, 1)
             diag_mask = self.diag_mask
+        #pdb.set_trace()
         
         if mask is not None:
             mask = mask.repeat(n_head, 1, 1)  # (n*b) x .. x ..
@@ -118,5 +125,7 @@ class MultiHeadAttention(nn.Module):
         
         dynamic = self.dropout(self.fc1(dynamic)) if self.dropout is not None else self.fc1(dynamic)
         static = self.dropout(self.fc2(static)) if self.dropout is not None else self.fc2(static)
-
+        
+        
         return dynamic, static, attn
+

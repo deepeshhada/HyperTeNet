@@ -11,7 +11,6 @@ from torch_geometric.nn.conv import MessagePassing
 from torch_geometric.utils import add_remaining_self_loops
 from torch_geometric.utils.num_nodes import maybe_num_nodes
 
-#from ..inits import glorot, zeros
 from utils.geom_utils import glorot, zeros
 
 

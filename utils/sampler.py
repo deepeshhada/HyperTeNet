@@ -1,6 +1,5 @@
+import numpy as np,pdb
 from multiprocessing import Process, Queue
-
-import numpy as np
 
 
 def random_neq(l, r, s):
@@ -9,10 +8,11 @@ def random_neq(l, r, s):
         t = np.random.randint(l, r)
     return t
 
-
 def sample_function(user_train, usernum, itemnum, batch_size, maxlen, result_queue, SEED):
     def sample():
+
         user = np.random.randint(1, usernum + 1)
+        #pdb.set_trace()
         while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
 
         seq = np.zeros([maxlen], dtype=np.int32)
@@ -30,7 +30,8 @@ def sample_function(user_train, usernum, itemnum, batch_size, maxlen, result_que
             idx -= 1
             if idx == -1: break
 
-        return user, seq, pos, neg
+        #pdb.set_trace()
+        return (user, seq, pos, neg)
 
     np.random.seed(SEED)
     while True:

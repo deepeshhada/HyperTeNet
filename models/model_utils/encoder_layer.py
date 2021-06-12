@@ -6,15 +6,15 @@ from tqdm import tqdm, trange
 import copy
 import math
 
-from models.hypersagnn_submodels.MultiHeadAttention import MultiHeadAttention
-from models.hypersagnn_submodels.PositionwiseFeedForward import PositionwiseFeedForward
-from models.hypersagnn_submodels.ScaledDotProductAttention import ScaledDotProductAttention
-
-
+from models.model_utils.multi_head_attention import MultiHeadAttention
+from models.model_utils.positionwise_feed_forward import PositionwiseFeedForward
+from models.model_utils.scaled_dot_product_attention import ScaledDotProductAttention
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 class EncoderLayer(nn.Module):
+    '''A self-attention layer + 2 layered pff'''
+    
     def __init__(
             self,
             n_head,
