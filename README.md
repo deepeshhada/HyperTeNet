@@ -12,7 +12,8 @@ make sure that a trained model corresponding to a dataset is present in
 the [saved_models](saved_models/) directory.
 
 
-**1. Art of the Mix (AOTM)**  
+**1. Art of the Mix (AOTM)**
+
 *Train:* `python train.py --path="./data/aotm/" --dataset="aotm"
 --num_epochs=300 --epoch_mod=5 --num_negatives=5`
 
