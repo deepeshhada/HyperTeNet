@@ -83,8 +83,8 @@ if __name__ == '__main__':
     # training =======================================================================
     ## param =============================
     #=====================================
-    vt_err_gnn           = Valid_Test_Error(params)
-    vt_err_seq           = Valid_Test_Error_seq(params)
+    vt_err_gnn           = ValidTestError(params)
+    vt_err_seq           = ValidTestErrorSEQ(params)
 
     include_networks     = eval(args.include_networks)
     if len(include_networks) == 1 and 'gnn' in include_networks:
@@ -92,7 +92,6 @@ if __name__ == '__main__':
     else:
         valid_type       = 'seq'
     vt_err               = vt_err_gnn if valid_type == 'gnn' else vt_err_seq
-    error_plot           = Error_plot(save_flag=True,res_path=params.result_path,args_str=args.args_str,args=args,item_bundle_str='bundle')
     ns_gnn               = NegativeSamples(params.train_matrix,params.num_negatives,params)
     ns_seq               = ListNegativeSamples(params.train_matrix_item_seq, params.num_negatives,params)
 
@@ -189,7 +188,6 @@ if __name__ == '__main__':
             (test_hr,test_ndcg,test_map)                  = (np.mean(test_hits_lst),np.mean(test_ndcg_lst),np.mean(test_map_lst))
             print("[%.2f s] %15s Errors train %.4f valid hr: %.4f test hr: %.4f valid ndcg: %.4f test ndcg: %.4f valid map: %.4f test map: %.4f"%(time()-t3,'',ce_or_pairwise_loss/num_inst,valid_hr,test_hr,valid_ndcg,test_ndcg,valid_map,test_map))
 
-            error_plot.append(loss,recon_loss,reg_loss,ce_or_pairwise_loss,valid_hr,test_hr,valid_ndcg,test_ndcg,valid_map,test_map)
             print('Time taken for this epoch: {:.2f} m'.format((time()-tt)/60))
 
     #=============================================================================================
@@ -203,8 +201,3 @@ if __name__ == '__main__':
     # best valid and test =======================================================================
     tot_time = time() - t_init
     args.total_time = '{:.2f}m'.format(tot_time/60)
-    print('error plot: ')
-    # (best_valid_hr_index,best_valid_ndcg_index,best_valid_map_index,best_valid_hr,best_valid_ndcg,best_valid_map,best_test_hr,best_test_ndcg,best_test_map,best_test_hr_test,best_test_ndcg_test,best_test_map_test) = error_plot.get_best_valid_test_error()
-    # args.hr_index,args.ndcg_index,args.map_index = best_valid_hr_index,best_valid_ndcg_index,best_valid_map_index
-    # print('[{:.2f} s] best_hr_index: {} best_ndcg_index: {} best_map_index: {} best_valid_hr: {:.4f} best_valid_ndcg: {:.4f} best_valid_map: {:.4f} best_test_hr: {:.4f} best_test_ndcg: {:.4f} best_test_map: {:.4f} best_test_hr_test: {:.4f} best_test_ndcg_test: {:.4f} best_test_map_test: {:.4f}'.format(tot_time,best_valid_hr_index,best_valid_ndcg_index,best_valid_map_index,best_valid_hr,best_valid_ndcg,best_valid_map,best_test_hr,best_test_ndcg,best_test_map,best_test_hr_test,best_test_ndcg_test,best_test_map_test))
-    # error_plot.plot()
