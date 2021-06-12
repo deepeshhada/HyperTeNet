@@ -39,7 +39,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 if __name__ == '__main__':
     args = parse_args()
     print(args)
-    print('Data loading...')
+    print('Loading dataset...\r')
     t1, t_init = time(), time()
     args.device = device
     args.date_time = datetime.datetime.now()
@@ -54,16 +54,13 @@ if __name__ == '__main__':
         dataset = Dataset(args)
 
     params = Parameters(args, dataset)
-    print("Load data done [%.1f s]. #user:%d, #list:%d, #item:%d, #train:%d, #valid:%d, #test:%d" % (time() - t1, params.num_user, params.num_list,
-        params.num_item, params.num_train_instances, params.num_valid_instances, params.num_test_instances))
+    print("Dataset Statistics:")
+    print(f"\t#Users: {params.num_user} | #Lists: {params.num_list} | #Items:{params.num_item}")
+    print(f"\tTrain: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
+    print(f"Density: {100*params.num_train_instances/(params.num_list*params.num_item):.4f} %")
 
-    args.args_str        = params.get_args_to_string()
-    t1                   = time()
-    print("args str: ",args.args_str)
-
-    print("leng from list_items_list: ",len(utils.get_value_lists_as_list(params.list_items_dct)))
-    print("leng from trainArrTriplets: ", len((params.trainArrTriplets[0])))
-    print("non-zero entries in train_matrix: ", params.train_matrix.nnz)
+    args.args_str = params.get_args_to_string()
+    t1 = time()
 
     # model-loss-optimizer defn =======================================================================
     models               = Models(params,device=device)
