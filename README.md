@@ -8,7 +8,7 @@ dataset in the [data](data/) directory. The datasets can be downloaded
 from [here](https://drive.google.com/drive/folders/1ravjFWBgUb_cgpn2Z00ELKyY3CNQXqiv?usp=sharing).
 
 ------------
-### Training HyperTeNet
+### Training and Evaluation
 Use the following scripts to train/evaluate the model. For evaluation,
 make sure that a trained model corresponding to a dataset is present in
 the [saved_models](saved_models/) directory.
