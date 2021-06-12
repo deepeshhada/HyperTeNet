@@ -79,5 +79,6 @@ the [saved_models](saved_models/) directory.
 The above commands can be used to get results as reported in the
 following table:
 
-[results_table](images/results_table.jpg)
+![results_table](images/results_table.jpg)
+
 ------------------
