@@ -44,7 +44,6 @@ class Dataset(object):
             [len(l) for l in list(self.user_lists_dct.values())]))
         print("avg items per list:", sum([len(l) for l in list(self.list_items_dct.values())]) / len(
             [len(l) for l in list(self.list_items_dct.values())]))
-        print("hai")
 
     def get_pickle_train_valid_test(self, fname):
         i = utils.load_pickle(fname)
