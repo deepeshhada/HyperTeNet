@@ -24,7 +24,6 @@ class TenetDataset(Dataset):
         self.user_user_comm_mat_sp   = self.mat_mult_sp(self.user_item_matrix_sp, self.user_item_matrix_sp.T)#.astype(bool).astype(int)#todok()
         self.item_item_comm_mat_sp   = self.mat_mult_sp(self.item_list_matrix_sp, self.item_list_matrix_sp.T)#.astype(bool).astype(int)
         self.list_list_comm_mat_sp   = self.mat_mult_sp(self.list_item_matrix_sp, self.list_item_matrix_sp.T)##.astype(bool).astype(int) ##real values
-        print("""[%.2f s] """ %(time()-t1))
         #pdb.set_trace()
 
         # ==============================
@@ -37,7 +36,6 @@ class TenetDataset(Dataset):
         ##
         '''
         binarize = True
-        print("hello")
         if binarize == True:
             self.user_user_comm_mat_sp   = sp.csr_matrix(sp.csr_matrix((self.user_user_comm_mat_sp),dtype=bool),dtype=int)
             self.item_item_comm_mat_sp   = sp.csr_matrix(sp.csr_matrix((self.item_item_comm_mat_sp),dtype=bool),dtype=int)
@@ -46,15 +44,12 @@ class TenetDataset(Dataset):
             #self.item_item_comm_mat_sp   = self.binarize_sparse_matrix(self.item_item_comm_mat_sp)
             #self.list_list_comm_mat_sp   = self.binarize_sparse_matrix(self.list_list_comm_mat_sp)
 
-        print("hello 2")
         '''
 
         # adj ===========
         self.user_adj_mat = self.user_user_comm_mat_sp
         self.list_adj_mat = self.list_list_comm_mat_sp
         self.item_adj_mat = self.item_item_comm_mat_sp
-
-        print("hello")
 
     # ==========================================
     def mat_mult_sp(self, mat1, mat2):

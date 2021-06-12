@@ -17,7 +17,6 @@ class EmbedDataset(TenetDataset):
         TenetDataset.__init__(self,args)
         path = args.path+args.dataset
         cosine = args.cosine == 'True'
-        print('Inside Embed Dataset')
 
         '''
         self.user_embed = torch.from_numpy(utils.load_npy(path + '.user_embed.npy')).to(args.device)

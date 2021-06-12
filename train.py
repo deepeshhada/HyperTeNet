@@ -43,7 +43,6 @@ if __name__ == '__main__':
     t1, t_init = time(), time()
     args.device = device
     args.date_time = datetime.datetime.now()
-    print(args.date_time)
 
     if args.method.lower() in ['tenet']:
         if args.knn_graph:
@@ -57,7 +56,7 @@ if __name__ == '__main__':
     print("Dataset Statistics:")
     print(f"\t#Users: {params.num_user} | #Lists: {params.num_list} | #Items:{params.num_item}")
     print(f"\tTrain: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
-    print(f"Density: {100*params.num_train_instances/(params.num_list*params.num_item):.4f} %")
+    print(f"\tDensity: {100*params.num_train_instances/(params.num_list*params.num_item):.4f} %")
 
     args.args_str = params.get_args_to_string()
     t1 = time()
