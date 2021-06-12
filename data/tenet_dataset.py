@@ -25,7 +25,6 @@ class TenetDataset(Dataset):
         self.user_adj_mat = self.user_user_comm_mat_sp
         self.list_adj_mat = self.list_list_comm_mat_sp
         self.item_adj_mat = self.item_item_comm_mat_sp
-        print("hello")
 
     def mat_mult_sp(self, mat1, mat2):
         return mat1 * mat2
