@@ -25,7 +25,7 @@ the [saved_models](saved_models/) directory.
 **2. Goodreads**
 
 *Train:* `python train.py --path="./data/goodreads/" --dataset=goodreads"
---num_layers=3 --num_epochs=400 --num_negatives=3 --num_negatives_seq=5
+--num_layers=3 --num_epochs=300 --num_negatives=3 --num_negatives_seq=5
 --lr=0.0008`
 
 *Evaluate:* `python eval.py --path="./data/goodreads/" --dataset="goodreads"
@@ -34,7 +34,7 @@ the [saved_models](saved_models/) directory.
 **3. Spotify**
 
 *Train:* `python train.py --path="./data/spotify/" --dataset=spotify"
---num_layers=3 --num_epochs=400 --num_negatives=3 --num_negatives_seq=5
+--num_layers=3 --num_epochs=300 --num_negatives=3 --num_negatives_seq=5
 --lr=0.0008`
 
 *Evaluate:* `python eval.py --path="./data/spotify/" --dataset="spotify"
@@ -43,7 +43,7 @@ the [saved_models](saved_models/) directory.
 **4. Zhihu**
 
 *Train:* `python train.py --path="./data/zhihu/" --dataset="zhihu"
---num_layers=3 --num_epochs=400 --num_negatives=5 --num_negatives_seq=6
+--num_layers=3 --num_epochs=300 --num_negatives=5 --num_negatives_seq=6
 --lr=0.002`
 
 *Evaluate:* `python eval.py --path="./data/zhihu/" --dataset="zhihu" --num_layers=3`
