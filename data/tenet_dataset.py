@@ -26,6 +26,18 @@ class TenetDataset(Dataset):
         self.list_adj_mat = self.list_list_comm_mat_sp
         self.item_adj_mat = self.item_item_comm_mat_sp
 
+        cosine = args.cosine == 'True'
+
+        # Embed dataset
+        if not cosine:
+            self.user_edge_index, self.list_edge_index, self.item_edge_index = utils.load_pickle(
+                args.path + '/' + args.embed_type + '/' + str(
+                    args.knn_k) + '/' + args.dataset + '.user_list_item_knn.pkl')
+        else:
+            self.user_edge_index, self.list_edge_index, self.item_edge_index = utils.load_pickle(
+                args.path + '/' + args.embed_type + '/' + str(
+                    args.knn_k) + '_cosine/' + args.dataset + '.user_list_item_knn.pkl')
+
     def mat_mult_sp(self, mat1, mat2):
         return mat1 * mat2
 
