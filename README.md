@@ -75,3 +75,9 @@ the [saved_models](saved_models/) directory.
 *Evaluate:* `python eval.py --path="./data/zhihu/" --dataset="zhihu" --num_layers=3`
 
 ------------
+### Results
+The above commands can be used to get results as reported in the
+following table:
+
+[results_table](images/results_table.jpg)
+------------------
