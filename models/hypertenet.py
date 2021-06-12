@@ -32,7 +32,6 @@ class HyperTeNet(torch.nn.Module):
         torch.nn.init.zeros_(self.user_list_item_embeddings.weight[self.params.num_user])
         torch.nn.init.zeros_(self.user_list_item_embeddings.weight[self.params.num_user + self.params.num_list])
 
-        # gnn ==========================
         self.user_indices = torch.tensor(np.array(range(params.num_user))).to(device).long()
         self.list_indices = torch.tensor(np.array(range(params.num_list))).to(device).long()
         self.item_indices = torch.tensor(np.array(range(params.num_item))).to(device).long()
@@ -113,30 +112,75 @@ class HyperTeNet(torch.nn.Module):
                                            diag_mask=True, bottle_neck=params.hid_units[-1],
                                            dropout=1.0 - params.net_keep_prob).to(device)
 
-        # Initializations
-        self.edge_probs_gnn, self.edge_probs_hgnn, self.edge_probs = None, None, None
-        self.out_trans, self.mask = None, None
-        self.is_target = None
-        self.item_seq_pos_embeds, self.item_seq_neg_embeds = None, None
-        self.user_item_seq_pos_embeds, self.list_item_seq_pos_embeds, self.item_seq_and_seq_pos_embeds = None, None, None
-        self.user_item_seq_neg_embeds, self.list_item_seq_neg_embeds, self.item_seq_and_seq_neg_embeds = None, None, None
-        self.pos_logits, self.neg_logits = None, None
-        self.test_item_embeds, self.item_seq_embeds, self.list_embeds, self.user_embeds = None, None, None, None
+    def get_emb_user(self, x, mask=None, get_outlier=None, return_recon=False):
+        emb = self.user_list_item_embeddings(x)
+        # emb    = self.user_item_list_dropout(emb)
+        output = emb[:, 0] * emb[:, 2]  # user-item
+        # output = emb[:,1] * emb[:,2] #list-item
+        # output = emb[:,0] * emb[:,1] * emb[:,2] #user-list-item
+        output = self.user_item_list_dropout(output)
+        # output = self.sigmoid(torch.sum(output,axis=1)) #self.user_item_list_dropout(output)
+        output = self.sigmoid(self.fc1(output).reshape(-1))  # self.user_item_list_dropout(output)
+        return output
 
-    def get_emb_user_list3(self, x, user_list_item_embeddings):
+    def get_emb_list(self, x, mask=None, get_outlier=None, return_recon=False):
+        emb = self.user_list_item_embeddings(x)
+        # emb    = self.user_item_list_dropout(emb)
+        output = emb[:, 1] * emb[:, 2]  # user-item
+        # output = emb[:,1] * emb[:,2] #list-item
+        # output = emb[:,0] * emb[:,1] * emb[:,2] #user-list-item
+        output = self.user_item_list_dropout(output)
+        # output = self.sigmoid(torch.sum(output,axis=1)) #self.user_item_list_dropout(output)
+        output = self.sigmoid(self.fc1(output).reshape(-1))  # self.user_item_list_dropout(output)
+        return output
+
+    def get_emb_user_list(self, x, mask=None, get_outlier=None, return_recon=False):
+        emb = self.user_list_item_embeddings(x)
+        output_user = emb[:, 0] * emb[:, 2]  # user-item
+        output_list = emb[:, 1] * emb[:, 2]  # list-item
+        output_user = self.dropout1(output_user)
+        output_list = self.dropout2(output_list)
+        output = self.sigmoid(self.fc1(output_user).reshape(-1) + self.fc2(output_list).reshape(
+            -1))  # self.user_item_list_dropout(output)
+        return output
+
+    def get_emb_all_mult(self, x, mask=None, get_outlier=None, return_recon=False):
+        emb = self.user_list_item_embeddings(x)
+        output = emb[:, 0] * emb[:, 1] * emb[:, 2]  # user-list-item
+        output = self.dropout1(output)
+        output = self.sigmoid(self.fc1(output).reshape(-1))  # self.user_item_list_dropout(output)
+        return output
+
+    def get_emb_all_mult2(self, x, user_list_item_embeddings, mask=None, get_outlier=None, return_recon=False):
+        emb = self.user_list_item_embeddings(x)
+        output = emb[:, 0] * emb[:, 1] * emb[:, 2]  # user-list-item
+        output = self.dropout1(output)
+        output = self.sigmoid(self.fc1(output).reshape(-1))  # self.user_item_list_dropout(output)
+        return output
+
+    def get_emb_user_list2(self, x, user_list_item_embeddings, mask=None, get_outlier=None, return_recon=False):
+        emb = user_list_item_embeddings[x]
+        output_user = emb[:, 0] * emb[:, 2]  # user-item
+        output_list = emb[:, 1] * emb[:, 2]  # list-item
+        output_user = self.dropout1(output_user)
+        output_list = self.dropout2(output_list)
+        output = self.sigmoid(self.fc1(output_user).reshape(-1) + self.fc2(output_list).reshape(
+            -1))  # self.user_item_list_dropout(output)
+        # output = self.fc1(output_user).reshape(-1) + self.fc2(output_list).reshape(-1) #self.user_item_list_dropout(output)
+        return output
+
+    def get_emb_user_list3(self, x, user_list_item_embeddings, mask=None, get_outlier=None, return_recon=False):
         emb = user_list_item_embeddings[x]
         output_user = emb[:, 0] * emb[:, 2]  # user-item
         output_list = emb[:, 1] * emb[:, 2]  # list-item
         output_user = self.dropout1(output_user)
         output_list = self.dropout2(output_list)
         output = self.sigmoid(self.fc3(output_user).reshape(-1) + self.fc4(output_list).reshape(
-            -1))
+            -1))  # self.user_item_list_dropout(output)
         return output
 
     def forward(self, user_indices, list_indices, item_indices=None, item_seq=None, item_seq_pos=None,
                 item_seq_neg=None, test_item_indices=None, param5=None, train=True, network='gnn', include_hgnn=False):
-        # def forward(self, user_indices, list_indices, item_seq, item_seq_pos=None, item_seq_neg=None, test_item_indices=None, param5=None, train=True,network='seq'):
-
         # gnn_user ==============================
         user_x = self.user_list_item_embeddings(self.user_indices.long())
         user_x = F.relu(self.user_conv1(user_x, self.user_param_indices, self.user_param_weights))
@@ -176,10 +220,11 @@ class HyperTeNet(torch.nn.Module):
 
         # seq ===================================
         elif network == 'seq':
-            if not train:
+            flag_tran = True
+            if train == False:
                 user_indices = user_indices.reshape(-1, 101)[:, 0]
                 list_indices = list_indices.reshape(-1, 101)[:, 0]
-                item_seq = item_seq.reshape(-1, 101, self.params.max_item_seq_length)[:, 0, :]
+                item_seq = item_seq.reshape(-1, 101, self.params.max_item_seq_length)[:, 0, :]  ##101
 
             self.user_embeds = user_x[user_indices]
             self.list_embeds = list_x[list_indices]
@@ -192,11 +237,12 @@ class HyperTeNet(torch.nn.Module):
                     self.user_embeds.reshape(-1, 1, self.params.hid_units[-1]) + self.list_embeds.reshape(-1, 1,
                                                                                                           self.params.hid_units[
                                                                                                               -1]))
-            self.item_seq_embeds += self.pos_embeddings.weight
+            self.item_seq_embeds += self.pos_embeddings.weight  ##check this carefullly
             self.item_seq_embeds *= self.mask.reshape(item_seq.shape[0], item_seq.shape[1], 1)
 
-            self.out_trans = self.trans_model(self.item_seq_embeds.transpose(1, 0)).transpose(1, 0)
-            self.item_seq_embeds = self.out_trans
+            if flag_tran:
+                self.out_trans = self.trans_model(self.item_seq_embeds.transpose(1, 0)).transpose(1, 0)  ##posemb
+                self.item_seq_embeds = self.out_trans
 
             if train:
                 self.item_seq_pos_embeds = item_x[item_seq_pos]
@@ -226,7 +272,7 @@ class HyperTeNet(torch.nn.Module):
 
                 return self.pos_logits, self.neg_logits, self.is_target
 
-            elif not train:
+            elif train == False:
                 self.test_item_embeds = item_x[test_item_indices]
                 self.item_seq_embeds = self.item_seq_embeds.view(-1, 1, self.params.max_item_seq_length,
                                                                  self.params.hid_units[-1]).repeat(1, 101, 1, 1).view(

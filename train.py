@@ -22,7 +22,7 @@ torch.backends.cudnn.benchmark = False
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# =========================================================================
+
 
 if __name__ == '__main__':
     args = parse_args()
@@ -50,13 +50,11 @@ if __name__ == '__main__':
 
     print(f"density: {100 * params.num_train_instances / (params.num_list * params.num_item):.4f} %")
 
-    # model-loss-optimizer defn =======================================================================
-    model = HyperTeNet(params, device)
+    model = HyperTeNet(params, device).to(device)
 
     criterion_li = torch.nn.BCELoss()
     optimizer_gnn = torch.optim.Adam(model.parameters(), lr=params.lr)
     optimizer_seq = torch.optim.Adam(model.parameters(), lr=params.lr)
-    model.to(device)
 
     # training =======================================================================
     include_networks = eval(args.include_networks)
@@ -97,7 +95,7 @@ if __name__ == '__main__':
             if network == 'gnn' and params.loss not in ['bpr']:
                 batch = Batch(num_inst, params.batch_size, shuffle=True)
                 while batch.has_next_batch():
-                    batch_indices = batch.get_next_batch_indices()
+                    batch_indices = torch.tensor(batch.get_next_batch_indices(), device=device).long()
                     optimizer_gnn.zero_grad()
 
                     y_pred = model(user_indices=user_input[batch_indices], list_indices=list_input[batch_indices],
@@ -111,7 +109,7 @@ if __name__ == '__main__':
             elif network == 'seq':
                 batch = Batch(num_inst, params.batch_size_seq, shuffle=True)
                 while batch.has_next_batch():
-                    batch_indices = batch.get_next_batch_indices()
+                    batch_indices = torch.tensor(batch.get_next_batch_indices(), device=device).long()
                     optimizer_seq.zero_grad()
                     y_pred_seq_pos, y_pred_seq_neg, is_target = model(user_indices=user_input[batch_indices].long(),
                                                                       list_indices=list_input[batch_indices].long(),

@@ -1,10 +1,10 @@
-import math,pdb
+import math
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+
 
 class TransformerModelMine(nn.Module):
-
     def __init__(self, ntoken, ninp, nhead, nhid, nlayers, dropout=0.5):
         super(TransformerModelMine, self).__init__()
         from torch.nn import TransformerEncoder, TransformerEncoderLayer
@@ -16,7 +16,6 @@ class TransformerModelMine(nn.Module):
         self.encoder = nn.Embedding(ntoken, ninp)
         self.ninp = ninp
         self.decoder = nn.Linear(ninp, ntoken)
-
         self.init_weights()
 
     def _generate_square_subsequent_mask(self, sz):
@@ -31,21 +30,17 @@ class TransformerModelMine(nn.Module):
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
     def forward(self, src):
-        #pdb.set_trace()
         if self.src_mask is None or self.src_mask.size(0) != src.size(0):
             device = src.device
             mask = self._generate_square_subsequent_mask(src.size(0)).to(device)
             self.src_mask = mask
 
-        ##src = self.encoder(src) * math.sqrt(self.ninp)
-        src = src * math.sqrt(self.ninp) ##Mine
-        #src = self.pos_encoder(src)
+        src = src * math.sqrt(self.ninp)
         output = self.transformer_encoder(src, self.src_mask)
-        #output = self.decoder(output)
         return output
 
-class PositionalEncoding(nn.Module):
 
+class PositionalEncoding(nn.Module):
     def __init__(self, d_model, dropout=0.1, max_len=5000):
         super(PositionalEncoding, self).__init__()
         self.dropout = nn.Dropout(p=dropout)
@@ -59,8 +54,5 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe)
 
     def forward(self, x, train=True):
-        #if train == False:
-        #    pdb.set_trace()
         x = x + self.pe[:x.size(0), :]
         return self.dropout(x)
-
