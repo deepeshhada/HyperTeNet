@@ -42,7 +42,7 @@ the [saved_models](saved_models/) directory.
 
 **4. Zhihu**
 
-*Train:* `python train.py --path="./data/zhihu/" --dataset=zhihu"
+*Train:* `python train.py --path="./data/zhihu/" --dataset="zhihu"
 --num_layers=3 --num_epochs=400 --num_negatives=5 --num_negatives_seq=6
 --lr=0.002`
 
