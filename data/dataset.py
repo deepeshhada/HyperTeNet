@@ -1,12 +1,12 @@
-# tested (one place where error can come is the situation where valid or test set having items that are not part of train set. It should be handled outside (out of vocab error)
-import pickle,itertools,pdb
+import pickle
+import itertools
 from time import time
 from collections import defaultdict
 import numpy as np
 import scipy.sparse as sp
 
-import utils
-## Fix all the object with proper validation and test information along with proper training time info
+from utils import utils
+
 
 class Dataset(object):
     def __init__(self,args):
@@ -42,8 +42,6 @@ class Dataset(object):
         self.train_matrix            = self.get_train_matrix_sp(self.list_items_dct,self.num_list,self.num_item)
         self.train_matrix_item_seq   = self.get_dct_mat_seq_remove_test(dct=self.list_items_dct, num_row=self.num_list, num_col=self.max_item_seq_length+1, padding_value=0) ##last_index :] for all, :-1] for remove test item, :-2] for removing test and valid
         self.train_matrix_item_seq_for_test = self.get_dct_mat_seq_for_test(dct=self.list_items_dct, num_row=self.num_list, num_col=self.max_item_seq_length, padding_value=0) ##last_index :] for all, :-1] for remove test item, :-2] for removing test and valid
-        #pdb.set_trace()
-        print("hai")
 
     def get_pickle_train_valid_test(self,fname):
         return utils.load_pickle(fname)
