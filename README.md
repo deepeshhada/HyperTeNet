@@ -19,9 +19,3 @@ the [saved_models](saved_models/) directory.
 *Evaluate:* `python train.py --path="./data/aotm/" --dataset="aotm"`
 
 ------------
-
-
-
-
-
-!
