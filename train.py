@@ -54,9 +54,9 @@ if __name__ == '__main__':
 
     params = Parameters(args, dataset)
     print("Dataset Statistics:")
-    print(f"\t#Users: {params.num_user} | #Lists: {params.num_list} | #Items:{params.num_item}")
-    print(f"\tTrain: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
-    print(f"\tDensity: {100*params.num_train_instances/(params.num_list*params.num_item):.4f} %")
+    print(f"    Users: {params.num_user} | Lists: {params.num_list} | Items:{params.num_item}")
+    print(f"    Train: {params.num_train_instances} | Valid: {params.num_valid_instances} | Test: {params.num_test_instances}")
+    print(f"    Density: {100*params.num_train_instances/(params.num_list*params.num_item):.4f} %")
 
     args.args_str = params.get_args_to_string()
     t1 = time()
