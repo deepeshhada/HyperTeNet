@@ -79,7 +79,7 @@ the [saved_models](saved_models/) directory.
 ### Results
 The trained models  Evaluating the trained models present in the
 [saved_models](saved_models/) directory using the above commands can be
-used to get results as reported in the following table:
+used to get results as reported in the following [table](images/results_table.jpg):
 
 ![results_table](images/results_table.jpg)
 
