@@ -52,11 +52,11 @@ the [saved_models](saved_models/) directory.
 **2. Goodreads**
 
 *Train:* `python train.py --path="./data/goodreads/"
---dataset="goodreads" --num_layers=3 --num_epochs=300 --num_negatives=3
---num_negatives_seq=5 --lr=0.0008`
+--dataset="goodreads" --num_layers=2 --num_epochs=300 --num_negatives=3
+--num_negatives_seq=4 --lr=0.0007`
 
-*Evaluate:* `python eval.py --path="./data/goodreads/" --dataset="goodreads"
---num_layers=3`
+*Evaluate:* `python eval.py --path="./data/goodreads/"
+--dataset="goodreads" --num_layers=2`
 
 **3. Spotify**
 
@@ -77,8 +77,9 @@ the [saved_models](saved_models/) directory.
 
 ------------
 ### Results
-The above commands can be used to get results as reported in the
-following table:
+The trained models  Evaluating the trained models present in the
+[saved_models](saved_models/) directory using the above commands can be
+used to get results as reported in the following table:
 
 ![results_table](images/results_table.jpg)
 
