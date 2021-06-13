@@ -51,16 +51,16 @@ the [saved_models](saved_models/) directory.
 
 **2. Goodreads**
 
-*Train:* `python train.py --path="./data/goodreads/" --dataset=goodreads"
---num_layers=3 --num_epochs=300 --num_negatives=3 --num_negatives_seq=5
---lr=0.0008`
+*Train:* `python train.py --path="./data/goodreads/"
+--dataset="goodreads" --num_layers=3 --num_epochs=300 --num_negatives=3
+--num_negatives_seq=5 --lr=0.0008`
 
 *Evaluate:* `python eval.py --path="./data/goodreads/" --dataset="goodreads"
 --num_layers=3`
 
 **3. Spotify**
 
-*Train:* `python train.py --path="./data/spotify/" --dataset=spotify"
+*Train:* `python train.py --path="./data/spotify/" --dataset="spotify"
 --num_layers=3 --num_epochs=300 --num_negatives=3 --num_negatives_seq=5
 --lr=0.0008`
 
