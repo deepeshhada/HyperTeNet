@@ -3,7 +3,10 @@ Hypergraph and Transformer-based Neural Network for Personalized List Continuati
 
 ------------
 ### Dependencies
-The environment must be CUDA-enabled. The code works on Python 3.5+.
+Download the code from this anonymized
+[link](https://drive.google.com/file/d/1LN2EcGuj0zDw9M1WYv6nuHi6rkwtolAH/view?usp=sharing)
+and make sure that the environment is CUDA-enabled. The code works on
+Python 3.5+.
 
 To install the dependencies, use:
 
