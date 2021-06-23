@@ -10,23 +10,18 @@ Python 3.5+.
 
 To install the dependencies, use:
 
-`python -m pip install requirements.txt`
+`pip install requirements.txt`
 
 If the requirements installation fails for some reason, you can use the
 following scripts to install the PyTorch components individually:
 
 ```Python
-python -m pip install torch===1.4.0+cu100 torchvision===0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
-
-python -m pip install --no-index torch-scatter==2.0.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
-
-python -m pip install --no-index torch-sparse==0.6.1 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
-
-python -m pip install --no-index torch-cluster==1.5.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
-
-python -m pip install --no-index torch-spline-conv==1.2.0 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
-
-python -m pip install torch-geometric==1.4.2 -q
+pip install torch===1.4.0+cu100 torchvision===0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
+pip install --no-index torch-scatter==2.0.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
+pip install --no-index torch-sparse==0.6.1 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
+pip install --no-index torch-cluster==1.5.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
+pip install --no-index torch-spline-conv==1.2.0 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
+pip install torch-geometric==1.4.2 -q
 ```
 
 ------------
