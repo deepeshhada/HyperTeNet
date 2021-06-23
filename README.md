@@ -31,7 +31,8 @@ https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
 python -m pip install --no-index torch-spline-conv==1.2.0 -q -f
 https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
 
-python -m pip install torch-geometric==1.4.2 -q```
+python -m pip install torch-geometric==1.4.2 -q
+```
 
 ------------
 ### Extract Dataset
