@@ -16,7 +16,7 @@ If the requirements installation fails for some reason, you can use the
 following scripts to install the PyTorch components individually:
 
 ```Python
-pip install torch===1.4.0+cu100 torchvision===0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torch==1.4.0+cu100 torchvision==0.5.0+cu100 -f https://download.pytorch.org/whl/torch_stable.html
 pip install --no-index torch-scatter==2.0.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
 pip install --no-index torch-sparse==0.6.1 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
 pip install --no-index torch-cluster==1.5.4 -f https://pytorch-geometric.com/whl/torch-1.4.0+cu100.html
