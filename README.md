@@ -1,12 +1,11 @@
 # HyperTeNet
-#### Hypergraph and Transformer-based Neural Network for Personalized List Continuation, ICDM 2021.
+#### Hypergraph and Transformer-based Neural Network for Personalized List Continuation, ICDM 2021 [(arXiv)](https://arxiv.org/abs/2110.01467).
 
 ------------
 ### Dependencies
 Download the code from this anonymized
 [link](https://drive.google.com/file/d/1LN2EcGuj0zDw9M1WYv6nuHi6rkwtolAH/view?usp=sharing)
-and make sure that the environment is CUDA-enabled. The code works on
-Python 3.5+.
+and make sure that the environment is CUDA-enabled. The code works on Python 3.5+.
 
 To install the dependencies, use:
 
@@ -80,3 +79,8 @@ used to get results similar to the ones reported in the following
 ![results_table](images/results_table.jpg)
 
 ------------------
+### YOU MAY ALSO LIKE
+- [ReXPlug: Explainable Recommendation using Plug-and-Play Language Model](https://github.com/deepeshhada/ReXPlug)
+
+------------
+
