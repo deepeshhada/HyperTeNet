@@ -1,5 +1,5 @@
 # HyperTeNet (IEEE ICDM, 2021)
-### Hypergraph and Transformer-based Neural Network for Personalized List Continuation [(arXiv)](https://arxiv.org/abs/2110.01467).\
+### Hypergraph and Transformer-based Neural Network for Personalized List Continuation [(arXiv)](https://arxiv.org/abs/2110.01467)
 
 #### Dependencies
 Download the code from this anonymized
