@@ -1,8 +1,8 @@
-# HyperTeNet
-#### Hypergraph and Transformer-based Neural Network for Personalized List Continuation, ICDM 2021 [(arXiv)](https://arxiv.org/abs/2110.01467).
+# HyperTeNet (IEEE ICDM, 2021)
+## Hypergraph and Transformer-based Neural Network for Personalized List Continuation [(arXiv)](https://arxiv.org/abs/2110.01467).
 
 ------------
-### Dependencies
+#### Dependencies
 Download the code from this anonymized
 [link](https://drive.google.com/file/d/1LN2EcGuj0zDw9M1WYv6nuHi6rkwtolAH/view?usp=sharing)
 and make sure that the environment is CUDA-enabled. The code works on Python 3.5+.
@@ -24,13 +24,13 @@ pip install torch-geometric==1.4.2 -q
 ```
 
 ------------
-### Extract Dataset
+#### Extract Dataset
 To train or evaluate **HyperTeNet** on a dataset, extract the zipped
 dataset in the [data](data/) directory. The datasets can be downloaded
 from [here](https://drive.google.com/drive/folders/1ravjFWBgUb_cgpn2Z00ELKyY3CNQXqiv?usp=sharing).
 
 ------------
-### Training and Evaluation
+#### Training and Evaluation
 Use the following scripts to train/evaluate the model. For evaluation,
 make sure that a trained model corresponding to a dataset is present in
 the [saved_models](saved_models/) directory.
@@ -70,7 +70,7 @@ the [saved_models](saved_models/) directory.
 *Evaluate:* `python eval.py --path="./data/zhihu/" --dataset="zhihu" --num_layers=3`
 
 ------------
-### Results
+#### Results
 Evaluating the trained models present in the
 [saved_models](saved_models/) directory using the above commands can be
 used to get results similar to the ones reported in the following
@@ -79,7 +79,7 @@ used to get results similar to the ones reported in the following
 ![results_table](images/results_table.jpg)
 
 ------------------
-### YOU MAY ALSO LIKE
+#### YOU MAY ALSO LIKE
 - [ReXPlug: Explainable Recommendation using Plug-and-Play Language Model](https://github.com/deepeshhada/ReXPlug)
 
 ------------
